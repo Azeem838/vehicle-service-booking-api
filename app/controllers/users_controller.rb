@@ -35,3 +35,7 @@ class UsersController < ApplicationController
     params.permit(:email, :username, :password)
   end
 end
+
+rails g scaffold Appointment service_id:int start_time:datetime end_time:datetime user:references
+
+rails g scaffold Service service_type:string allocated_time:integer
