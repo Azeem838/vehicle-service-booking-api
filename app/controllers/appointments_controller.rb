@@ -36,13 +36,13 @@ class AppointmentsController < ApplicationController
 
   # DELETE /appointments/1
   def destroy
-    unless @user === @appointment.user
+    unless @user == @appointment.user
       render json: 'This appointment does not belong to you', status: 403
-      return 
+      return
     end
-    
+
     if @appointment.destroy
-      render json: {status: "successfully deleted!", appointment: @appointment}
+      render json: { status: 'successfully deleted!', appointment: @appointment }
     else
       render json: 'could not delete this appointment'
     end
