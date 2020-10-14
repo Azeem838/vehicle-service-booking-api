@@ -1,9 +1,9 @@
 class AppointmentsController < ApplicationController
-  before_action :set_appointment, only: [:show, :update, :destroy]
+  before_action :set_appointment, only: %i[show update destroy]
 
   # GET /appointments
   def index
-    @appointments = Appointment.all
+    @appointments = @user.appointments
 
     render json: @appointments
   end
@@ -15,10 +15,11 @@ class AppointmentsController < ApplicationController
 
   # POST /appointments
   def create
-    @appointment = Appointment.new(appointment_params)
+    @appointment = @user.appointments.build(appointment_params)
+    @service = @appointment.service
 
     if @appointment.save
-      render json: @appointment, status: :created, location: @appointment
+      render json: { appointment: @appointment, service: @service }, status: :created, location: @appointment
     else
       render json: @appointment.errors, status: :unprocessable_entity
     end
@@ -35,17 +36,27 @@ class AppointmentsController < ApplicationController
 
   # DELETE /appointments/1
   def destroy
-    @appointment.destroy
+    unless @user === @appointment.user
+      render json: 'This appointment does not belong to you', status: 403
+      return 
+    end
+    
+    if @appointment.destroy
+      render json: {status: "successfully deleted!", appointment: @appointment}
+    else
+      render json: 'could not delete this appointment'
+    end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_appointment
-      @appointment = Appointment.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def appointment_params
-      params.require(:appointment).permit(:service_id, :start_time, :end_time, :user_id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_appointment
+    @appointment = Appointment.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def appointment_params
+    params.permit(:service_id, :start_time, :end_time)
+  end
 end
