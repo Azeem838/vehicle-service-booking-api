@@ -3,7 +3,7 @@ class AppointmentsController < ApplicationController
 
   # GET /appointments
   def index
-    @appointments = @user.appointments
+    @appointments = @user.appointments.reverse
 
     render json: @appointments
   end
@@ -19,7 +19,7 @@ class AppointmentsController < ApplicationController
     @service = @appointment.service
 
     if @appointment.save
-      render json: { appointment: @appointment, service: @service }, status: :created, location: @appointment
+      render json: { appointment: @appointment, service: @service, message: 'Service created successfully' }, status: :created, location: @appointment
     else
       render json: @appointment.errors, status: :unprocessable_entity
     end
@@ -57,6 +57,6 @@ class AppointmentsController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def appointment_params
-    params.permit(:service_id, :start_time, :end_time)
+    params.permit(:service_id, :start_time, :end_time, :description)
   end
 end
