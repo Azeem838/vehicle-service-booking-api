@@ -16,12 +16,27 @@ RSpec.describe '/appointments', type: :request do
   # This should return the minimal set of attributes required to create a valid
   # Appointment. As you add validations to Appointment, be sure to
   # adjust the attributes here as well.
+
+  before(:all) do
+    Rails.application.load_seed
+  end
+
+  let!(:user) { create(:random_user) }
+  let!(:token) { JWT.encode({ user_id: user.id }, 's3cr3t') }
+  let!(:appointment) { create(:random_appointment, user_id: user.id) }
+
   let(:valid_attributes) do
-    skip('Add a hash of attributes valid for your model')
+    {
+      "service_id": appointment.service_id,
+      "start_time": appointment.start_time,
+      "end_time": appointment.end_time,
+      "description": appointment.description,
+      "user_id": user.id
+    }
   end
 
   let(:invalid_attributes) do
-    skip('Add a hash of attributes invalid for your model')
+    { "user_id": '50' }
   end
 
   # This should return the minimal set of values that should be in the headers
@@ -29,21 +44,13 @@ RSpec.describe '/appointments', type: :request do
   # AppointmentsController, or in your router and rack
   # middleware. Be sure to keep this updated too.
   let(:valid_headers) do
-    {}
+    { 'Content-Type' => 'application/json', 'Authorization' => "Bearer #{token}" }
   end
 
   describe 'GET /index' do
     it 'renders a successful response' do
       Appointment.create! valid_attributes
-      get appointments_url, headers: valid_headers, as: :json
-      expect(response).to be_successful
-    end
-  end
-
-  describe 'GET /show' do
-    it 'renders a successful response' do
-      appointment = Appointment.create! valid_attributes
-      get appointment_url(appointment), as: :json
+      get '/appointments', headers: valid_headers, as: :json
       expect(response).to be_successful
     end
   end
@@ -61,7 +68,7 @@ RSpec.describe '/appointments', type: :request do
         post appointments_url,
              params: { appointment: valid_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:created)
-        expect(response.content_type).to match(a_string_including('application/json'))
+        expect(response.body).to match('Service created successfully')
       end
     end
 
@@ -77,51 +84,8 @@ RSpec.describe '/appointments', type: :request do
         post appointments_url,
              params: { appointment: invalid_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.content_type).to eq('application/json')
+        expect(response.body).to match(/must exist/)
       end
-    end
-  end
-
-  describe 'PATCH /update' do
-    context 'with valid parameters' do
-      let(:new_attributes) do
-        skip('Add a hash of attributes valid for your model')
-      end
-
-      it 'updates the requested appointment' do
-        appointment = Appointment.create! valid_attributes
-        patch appointment_url(appointment),
-              params: { appointment: invalid_attributes }, headers: valid_headers, as: :json
-        appointment.reload
-        skip('Add assertions for updated state')
-      end
-
-      it 'renders a JSON response with the appointment' do
-        appointment = Appointment.create! valid_attributes
-        patch appointment_url(appointment),
-              params: { appointment: invalid_attributes }, headers: valid_headers, as: :json
-        expect(response).to have_http_status(:ok)
-        expect(response.content_type).to eq('application/json')
-      end
-    end
-
-    context 'with invalid parameters' do
-      it 'renders a JSON response with errors for the appointment' do
-        appointment = Appointment.create! valid_attributes
-        patch appointment_url(appointment),
-              params: { appointment: invalid_attributes }, headers: valid_headers, as: :json
-        expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.content_type).to eq('application/json')
-      end
-    end
-  end
-
-  describe 'DELETE /destroy' do
-    it 'destroys the requested appointment' do
-      appointment = Appointment.create! valid_attributes
-      expect do
-        delete appointment_url(appointment), headers: valid_headers, as: :json
-      end.to change(Appointment, :count).by(-1)
     end
   end
 end
