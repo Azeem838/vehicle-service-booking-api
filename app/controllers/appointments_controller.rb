@@ -14,7 +14,8 @@ class AppointmentsController < ApplicationController
     @service = @appointment.service
 
     if @appointment.save
-      render json: { appointment: @appointment, service: @service, message: 'Service created successfully' }, status: :created, location: @appointment
+      render json: { appointment: @appointment, service: @service, message: 'Service created successfully' },
+             status: :created, location: @appointment
     else
       render json: @appointment.errors, status: :unprocessable_entity
     end
