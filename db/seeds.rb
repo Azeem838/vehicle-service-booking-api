@@ -6,11 +6,6 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-# User.create(email: "azeem@example.com", username: "azeem", password: "sample")
-
-# Service.create(service_type: "Quick Service", allocated_time: "3")
-# Service.create(service_type: "Full Service", allocated_time: "6")
-# Service.create(service_type: "Other", allocated_time: "8")
-
-# Appointment.create(start_time, end_time, description,service_id, user_id)
-# Appointment.create(start_time, end_time, description,service_id, user_id)
+Service.create(service_type: "Quick Service", allocated_time: "3")
+Service.create(service_type: "Full Service", allocated_time: "6")
+Service.create(service_type: "Other", allocated_time: "8")
