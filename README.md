@@ -58,12 +58,12 @@ The deployed base Url: <https://vehicle-service-booking-api.herokuapp.com>
 You can run all the commands in postman, the base url needs to be altered for the requests when needed:
 [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/7f52c6333dcad728b254)
 
-### [Link to full API docs](./doc/API.md)
+### [Link to full API docs](./docs/API.md)
 
 ## ERD for Rails database
 
 <p align="center">
-  <a href="./doc/vehicle-service-booking-ERD.png"> <img src="./doc/vehicle-service-booking-ERD.png" alt="react-redux" height="350">
+  <a href="./docs/vehicle-service-booking-ERD.png"> <img src="./docs/vehicle-service-booking-ERD.png" alt="react-redux" height="350">
   </a>
 </p>
 
