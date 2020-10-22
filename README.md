@@ -63,7 +63,7 @@ You can run all the commands in postman, the base url needs to be altered for th
 ## ERD for Rails database
 
 <p align="center">
-  <a href="./docs/vehicle-service-booking-ERD.png"> <img src="./docs/vehicle-service-booking-ERD.png" alt="react-redux" height="350">
+  <a href="./docs/vehicle-service-booking-ERD-new.png"> <img src="./docs/vehicle-service-booking-ERD-new.png" alt="react-redux" width="1000">
   </a>
 </p>
 
