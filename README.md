@@ -5,8 +5,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/Azeem838/vehicle-service-booking.git">
-    <img src="./booking-page.png" alt="react-redux" height="500"></p>
-    <p align="center"> <img src="./service-page.png" alt="react-redux" height="500">
+    <img src="./the-gif.gif" alt="react-redux"></p>
   </a>
 
   <h3 align="center">Vehicle Service Booking - React/Ionic in the front-end and a Rails-API in the back-end </h3>
